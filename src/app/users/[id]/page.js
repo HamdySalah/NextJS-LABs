@@ -2,6 +2,9 @@ import React from "react";
 import Link from "next/link";
 import styles from "./userDetail.module.css";
 import { notFound } from "next/navigation";
+import DeleteButton from "./DeleteButton";
+
+export const revalidate = 60; // ISR: revalidate every 60 seconds
 
 export async function generateMetadata({ params }) {
   const user = await getUser(params.id);
@@ -14,11 +17,20 @@ export async function generateMetadata({ params }) {
 }
 
 async function getUser(id) {
-  const res = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`);
-  if (!res.ok) {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/${id}`, {
+      next: { revalidate: 60 }
+    });
+    
+    if (!res.ok) {
+      return null;
+    }
+    
+    return res.json();
+  } catch (error) {
+    console.error("Error fetching user:", error);
     return null;
   }
-  return res.json();
 }
 
 export default async function UserDetail({ params }) {
@@ -34,21 +46,39 @@ export default async function UserDetail({ params }) {
       <div className={styles.details}>
         <p><strong>Username:</strong> {user.username}</p>
         <p><strong>Email:</strong> {user.email}</p>
-        <p><strong>Phone:</strong> {user.phone}</p>
-        <p><strong>Website:</strong> {user.website}</p>
+        <p><strong>Phone:</strong> {user.phone || "N/A"}</p>
+        <p><strong>Website:</strong> {user.website || "N/A"}</p>
         
-        <h2>Address</h2>
-        <p>{user.address.street}, {user.address.suite}</p>
-        <p>{user.address.city}, {user.address.zipcode}</p>
+        {user.address && (
+          <>
+            <h2>Address</h2>
+            <p>{user.address.street || ""}, {user.address.suite || ""}</p>
+            <p>{user.address.city || ""}, {user.address.zipcode || ""}</p>
+          </>
+        )}
         
-        <h2>Company</h2>
-        <p><strong>Name:</strong> {user.company.name}</p>
-        <p><strong>Catchphrase:</strong> {user.company.catchPhrase}</p>
+        {user.company && (
+          <>
+            <h2>Company</h2>
+            <p><strong>Name:</strong> {user.company.name || "N/A"}</p>
+            <p><strong>Catchphrase:</strong> {user.company.catchPhrase || "N/A"}</p>
+          </>
+        )}
       </div>
       
-      <Link href="/users" className={styles.backButton}>
-        ← Back to Users
-      </Link>
+      <div className={styles.actions}>
+        <Link href={`/users/edit/${user._id}`} className={styles.editButton}>
+          Edit User
+        </Link>
+        <DeleteButton userId={user._id} />
+        <Link href="/users" className={styles.backButton}>
+          ← Back to Users
+        </Link>
+      </div>
     </div>
   );
 }
+
+
+
+

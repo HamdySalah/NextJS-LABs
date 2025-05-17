@@ -44,22 +44,38 @@
   font-weight: 600;
 }
 
-.backButton {
-  display: inline-block;
-  padding: 0.6rem 1.2rem;
-  background-color: #0070f3;
-  color: white;
+.actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.editButton, .backButton {
+  padding: 0.75rem 1.5rem;
   border-radius: 6px;
   text-decoration: none;
   font-weight: 500;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.editButton {
+  background-color: #0070f3;
+  color: white;
+}
+
+.editButton:hover {
+  background-color: #005cc5;
+}
+
+.backButton {
+  background-color: #f5f5f5;
+  color: #333;
+  border: 1px solid #ddd;
 }
 
 .backButton:hover {
-  background-color: #005cc5;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  transform: translateY(-2px);
+  background-color: #e5e5e5;
 }
 
 @media (max-width: 768px) {
@@ -101,3 +117,4 @@
     -webkit-text-fill-color: transparent;
   }
 }
+

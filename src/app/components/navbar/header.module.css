@@ -1,0 +1,50 @@
+ .navbar {
+    display: flex;
+    gap: 16px;
+    padding: 16px;
+    background: var(--background);
+    border-bottom: 1px solid var(--gray-alpha-200);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+  
+  .navbar a {
+    font-family: var(--font-geist-mono);
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 500;
+    color: var(--foreground);
+    text-decoration: none;
+    position: relative;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+  }
+  
+  .navbar a:hover {
+    text-decoration: none;
+    background-color: var(--gray-alpha-100);
+    transform: translateY(-2px);
+  }
+  
+  .navbar a.active {
+    font-weight: 600;
+    background-color: var(--gray-alpha-200);
+  }
+  #login {
+    background: var(--foreground);
+    color: var(--background);
+    padding: 8px 16px;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+  }
+  
+  #login:hover {
+    background: var(--button-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
